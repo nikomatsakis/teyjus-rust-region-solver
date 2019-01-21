@@ -81,3 +81,13 @@ test "transitive_static" :-
 % ==> true if `r1: static`
 test "transitive_r1_r2" :-
   outlives (reg "r1") (reg "r2").
+
+% (r1: r2)
+% ==> true if `r1: r2`
+test "transitive_r1_r2" :-
+  outlives (reg "r1") (reg "r2").
+
+% (r1: r2); (r1: r3)
+test "transitive_r1_r2_or_r1_r3" :-
+  outlives (reg "r1") (reg "r2");
+  outlives (reg "r1") (reg "r3").
