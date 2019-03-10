@@ -92,6 +92,19 @@ test "transitive_r1_r2" :-
 test "transitive_r1_r2" :-
   outlives (reg "r1") (reg "r2") [] L.
 
+% exists<X> { (r1: X) }
+% ==> true if `r1: r2`
+test "trivial" :-
+  sigma X \ (outlives (reg "r1") X [] []).
+
+% exists<X> { (r1: X), (X: r2) }
+% ==> true if `r1: r2`
+test2 "intermediary" Lout :-
+  sigma X \ (
+    outlives (reg "r1") X [] Lmid,
+    outlives X (reg "r2") Lmid Lout
+  ).
+
 % % (r1: r2); (r1: r3)
 % test "transitive_r1_r2_or_r1_r3" :-
 %   outlives (reg "r1") (reg "r2");
